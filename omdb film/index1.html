@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>API OMDb Film</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('./img/movie.jpeg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.7); 
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="text-center">
+            <h1 class="display-3">Search Informasi Film</h1>
+        </header>
+
+        <form id="searchForm" class="mb-4">
+            <div class="input-group">
+                <input type="text" id="movieTitle" class="form-control" placeholder="Cari Judul Film...">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+
+        <div id="searchResults" class="row">
+            <!-- Hasil pencarian film akan ditampilkan di sini -->
+        </div>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        // URL API film
+        const apiUrl = 'http://www.omdbapi.com/?apikey=4dfbb3f';
+
+        // Ambil elemen-elemen yang dibutuhkan
+        const searchForm = document.getElementById('searchForm');
+        const movieTitleInput = document.getElementById('movieTitle');
+        const searchResults = document.getElementById('searchResults');
+
+        // Fungsi untuk mengambil data film dari API
+        function fetchData(searchTerm) {
+            fetch(apiUrl + `&s=${searchTerm}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Gagal mencari data film.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Data film berhasil diambil
+                    console.log('Data Film:', data);
+                    // Tampilkan hasil pencarian ke dalam elemen HTML
+                    displaySearchResults(data.Search);
+                })
+                .catch(error => {
+                    // Tangani kesalahan
+                    console.error('Terjadi kesalahan:', error);
+                });
+        }
+
+        // Fungsi untuk menampilkan hasil pencarian ke dalam elemen HTML
+        function displaySearchResults(results) {
+            if (results && results.length > 0) {
+                searchResults.innerHTML = '';
+                results.forEach(result => {
+                    const resultItem = document.createElement('div');
+                    resultItem.classList.add('col-md-4', 'mb-4');
+                    resultItem.innerHTML = `
+                        <div class="card">
+                            <img src="${result.Poster}" class="card-img-top" alt="Poster ${result.Title}">
+                            <div class="card-body">
+                                <h5 class="card-title">${result.Title}</h5>
+                                <p class="card-text">Tahun: ${result.Year}</p>
+                                <p class="card-text">IMDb ID: ${result.imdbID}</p>
+                            </div>
+                        </div>
+                    `;
+                    searchResults.appendChild(resultItem);
+                });
+            } else {
+                searchResults.innerHTML = '<p class="col">Tidak ada hasil yang cocok.</p>';
+            }
+        }
+
+        // Tangani pengiriman formulir pencarian
+        searchForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const searchTerm = movieTitleInput.value;
+            fetchData(searchTerm);
+        });
+    
+    </script>
+
+</body>
+</html>
