@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETS PEMWEB A</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    
+        #user-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+        }
+    
+        .user-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            width: 250px;
+        }
+        .user-card .follower-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+        @media (max-width: 768px) {
+            #user-list {
+                grid-template-columns: repeat(2, 1fr); /* 2 kolom di atas pada layar kecil */
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>Users</h1>
+    <div id="user-list">
+        <!-- Data pengguna akan ditampilkan di sini -->
+    </div>
+
+    <script src="5027221006.js"></script>
+</body>
+</html>
